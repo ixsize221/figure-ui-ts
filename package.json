@@ -4,7 +4,8 @@
   "description": "",
   "main": "",
   "scripts": {
-    "start": "npx ts-node main.ts"
+    "start": "npx ts-node main.ts",    
+    "dev": "tsx watch main.ts"
   },
   "keywords": [],
   "dependencies": {
@@ -13,6 +14,7 @@
     "readline-sync": "1.4.10",
     "ts-node": "10.4.0",
     "tslint": "6.1.3",
+    "tsx": "^4.19.2",
     "typescript": "4.4.4"
   }
 }
