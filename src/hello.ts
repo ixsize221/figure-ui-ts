@@ -1,7 +1,7 @@
 class Point {
   x: number;
   y: number;
-  constructor(x: number, y: number, z: number) {
+  constructor(x: number, y: number) {
     // ЕСЛИ ТОЧКА Х и У положительные > 0, то все ок, иначе ошибка
     if (x >= 0 && y >= 0) {
       this.x = x;
@@ -13,13 +13,22 @@ class Point {
   }
 }
 
-class Rectangle {
+class Shape {
+  color: string;
+  lineWidth: number;
+  constructor(color: string, lineWidth: number) {
+    this.color = color;
+    this.lineWidth = lineWidth;
+  }
+}
+
+class Rectangle extends Shape {
   private _x1: number;
   private _y1: number;
   private _x2: number;
   private _y2: number;
-
   constructor(x1: number, y1: number, x2: number, y2: number) {
+    super("red", 1);
     if (x1 >= 0 && x2 >= 0 && y1 >= 0 && y2 >= 0) {
       this._x1 = x1;
       this._y1 = y1;
@@ -97,11 +106,12 @@ console.log(квадрат2.длинна);
 console.log(квадрат2.info);
 console.log(квадрат1.info);
 
-class Tringle {
+class Tringle extends Shape {
   private _a: Point;
   private _b: Point;
   private _c: Point;
   constructor(a: Point, b: Point, c: Point) {
+    super("green", 1);
     this._a = a;
     this._b = b;
     this._c = c;
@@ -115,10 +125,24 @@ class Tringle {
   get c() {
     return this._c;
   }
-  get square() {
-    return num;
+}
+
+class Circle extends Shape {
+  private _center: Point;
+  private _radius: number;
+  private _innerColor: string;
+
+  constructor(center: Point, radius: number, innerColor: string) {
+    super("blue", 3);
+    this._center = center;
+    this._radius = radius;
+    this._innerColor = innerColor;
   }
 }
+let круг1 = new Circle(new Point(10, 0), 50, "red");
+let треуг1 = new Tringle(new Point(0, 0), new Point(100, 0), new Point(0, 100));
+
+console.log(круг1, треуг1);
 
 // console.log("Привет, Вася!");
 // let a: number = 10;
