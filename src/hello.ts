@@ -128,19 +128,20 @@ class Tringle extends Shape {
 }
 
 class Circle extends Shape {
-  private _center: Point;
-  private _radius: number;
-  private _innerColor: string;
+  center: Point;
+  radius: numberb;
+  innerColor: string;
 
   constructor(center: Point, radius: number, innerColor: string) {
-    super("blue", 3);
-    this._center = center;
-    this._radius = radius;
-    this._innerColor = innerColor;
+    super("blue", 3); // Тут вызываем конструктор фигур -- синяя, толщина = 3
+    this.center = center;
+    this.radius = radius;
+    this.innerColor = innerColor;
   }
 }
 let круг1 = new Circle(new Point(10, 0), 50, "red");
 let треуг1 = new Tringle(new Point(0, 0), new Point(100, 0), new Point(0, 100));
+
 
 console.log(круг1, треуг1);
 
