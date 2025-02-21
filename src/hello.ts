@@ -1,17 +1,28 @@
 class Point {
-  x: number;
-  y: number;
+  private x: number;
+  protected y: number;
   constructor(x: number, y: number) {
     // ЕСЛИ ТОЧКА Х и У положительные > 0, то все ок, иначе ошибка
     if (x >= 0 && y >= 0) {
       this.x = x;
       this.y = y;
     } else {
-      this.x = Math.abs(x);
-      this.y = Math.abs(y);
+      throw new Error("Без отрицательных чисел плес")
+    }
+  }
+  changeX(numb){
+    if (numb >= 0 ) {
+      this.x = numb
+    }
+    else {
+      throw new Error("Без отрицательных чисел плес")
     }
   }
 }
+let a = new Point(10,10)
+a.x = -100
+a.changeX(-100)
+
 
 class Shape {
   color: string;
