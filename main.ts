@@ -1,1 +1,1 @@
-require("./src/hello.ts");
+require("./src/mebel.ts");

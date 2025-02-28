@@ -7,22 +7,21 @@ class Point {
       this.x = x;
       this.y = y;
     } else {
-      throw new Error("Без отрицательных чисел плес")
+      throw new Error("Без отрицательных чисел плес");
     }
   }
-  changeX(numb){
-    if (numb >= 0 ) {
-      this.x = numb
-    }
-    else {
-      throw new Error("Без отрицательных чисел плес")
-    }
-  }
+  // changeX(numb){
+  //   if (numb >= 0 ) {
+  //     this.x = numb
+  //   }
+  //   else {
+  //     throw new Error("Без отрицательных чисел плес")
+  //   }
+  // }
 }
-let a = new Point(10,10)
-a.x = -100
-a.changeX(-100)
-
+let a = new Point(10, 10);
+// a.x = -100
+// a.changeX(-100)
 
 class Shape {
   color: string;
@@ -140,7 +139,7 @@ class Tringle extends Shape {
 
 class Circle extends Shape {
   center: Point;
-  radius: numberb;
+  radius: number;
   innerColor: string;
 
   constructor(center: Point, radius: number, innerColor: string) {
@@ -152,7 +151,6 @@ class Circle extends Shape {
 }
 let круг1 = new Circle(new Point(10, 0), 50, "red");
 let треуг1 = new Tringle(new Point(0, 0), new Point(100, 0), new Point(0, 100));
-
 
 console.log(круг1, треуг1);
 
