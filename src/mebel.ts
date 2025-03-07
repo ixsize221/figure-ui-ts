@@ -13,7 +13,10 @@ class Мебель {
 }
 
 class Стул extends Мебель {
-  private ножки: number;
+  static все: Стул[] = [];
+  static количество: number = 0;
+  id: number;
+  private _ножки: number;
   высота: number;
   спинка: boolean;
   constructor(
@@ -24,9 +27,26 @@ class Стул extends Мебель {
     ножки: number = 4
   ) {
     super(названиеСтула, "30х60х140", цена);
+    Стул.количество++;
+    this.id = Стул.количество;
+    Стул.все.push(this);
     this.ножки = ножки;
     this.высота = высота;
     this.спинка = спинка;
+  }
+  static средняяЦена() {
+    let summ: number = Стул.все.reduce(
+      (sum, current) => sum + current.price,
+      0
+    );
+    console.log(summ / Стул.все.length);
+  }
+  set ножки(num: number) {
+    if (num > 0 && num < 20) this._ножки = num;
+    else throw new Error("Количество ножек не правильное");
+  }
+  get ножки() {
+    return this._ножки;
   }
   скидка() {
     console.log(`Скидка на стул ${this.name} ${this.price * 0.2} рублей`);
@@ -35,9 +55,11 @@ class Стул extends Мебель {
 
 let стулПервый = new Стул("Класный стул №1", 50, true, 5000, 3);
 let кожаныйСтул = new Стул("Кожаный стул", 45, false, 12000);
+let кожаныйСтул11 = new Стул("Кожаный стул", 45, false, 12000);
+Стул.средняяЦена();
 
-console.log(стулПервый, кожаныйСтул);
-
+//console.log(Стул.все);
+console.log("Всего стульев: " + Стул.количество);
 class Стол extends Мебель {
   private _ножки: number;
   площадьСтолешницы: number;
