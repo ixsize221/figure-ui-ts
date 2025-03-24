@@ -30,6 +30,9 @@ class Circle extends Figure {
   area(): number {
     return Math.PI * this.radius * this.radius;
   }
+  diametr():number{
+    return this.radius *2
+  }
   perimetr(): number {
     return 2 * Math.PI * this.radius;
   }
@@ -71,6 +74,20 @@ let kvadr1 = new Square(40, 40);
 // ПОСЧИТАТЬ ПЛОЩАДЬ КРУГА И ДИАМЕТР ,И ВЫВЕСТИ ИХ В ХТМЛ БЛОКАХ (блоки пока вывести в консоль, потом HTML сделаю у проекта)
 // функция принимает: круг, еденицу измерения: м или см. если никакой не передели то метры по умолчанию. Возвращает строчку (string)
 function outputHTML(circ: Circle, unit: "m" | "cm" = "m"): string {
+  let Scircle = circ.area();
+  let Dcircle = circ.diametr()
+  if (unit == "cm") {
+    return `<div class="result">
+                <h1>Диаметр круга   = ${Scircle * 100} сантиметор</h1>
+                <h1>Площадь круга   = ${Dcircle ^ 2} сантиметров^2</h1>
+            </div>`;
+  } else {
+    return `<div class="result">
+                <h1>Диаметр круга   = ${Scircle} метров</h1>
+                <h1>Площадь круга   = ${Dcircle} метров^2</h1>
+            </div>`;
+  }
+
   // в circ === тот круг который будем считать
   // в unit === "m" || unit === "cm" метры или сантиметры
 
