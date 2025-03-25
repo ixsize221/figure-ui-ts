@@ -20,6 +20,7 @@ abstract class Фигура {
   abstract площадь(): number;
 }
 
+
 class Круг extends Фигура {
   public radius; // радиус в метрах
   constructor(radius: number) {
