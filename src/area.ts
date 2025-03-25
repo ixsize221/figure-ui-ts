@@ -1,4 +1,4 @@
-class Point {
+class Точка {
   private x: number;
   private y: number;
   constructor(x: number, y: number) {
@@ -12,94 +12,82 @@ class Point {
   }
 }
 
-abstract class Figure {
+abstract class Фигура {
   public center;
-  constructor(center: Point) {
+  constructor(center: Точка) {
     this.center = center;
   }
-  abstract area(): number;
+  abstract площадь(): number;
 }
 
-class Circle extends Figure {
+class Круг extends Фигура {
   public radius; // радиус в метрах
   constructor(radius: number) {
     // на супер конструктор уходит центр фигуры -- точка 0, 0
-    super(new Point(0, 0));
+    super(new Точка(0, 0));
     this.radius = radius;
   }
-  area(): number {
+  площадь(): number {
     return Math.PI * this.radius * this.radius;
   }
-  diametr():number{
-    return this.radius *2
+  diametr(): number {
+    return this.radius * 2;
   }
   perimetr(): number {
     return 2 * Math.PI * this.radius;
   }
 }
 
-class Square extends Figure {
+class Прямоугольник extends Фигура {
   public width: number; // ширина в метрах
   public height: number; // высота в метрах
   constructor(width: number, height: number) {
     // на супер конструктор уходит центр фигуры -- точка 0, 0
-    super(new Point(0, 0));
+    super(new Точка(0, 0));
     this.height = height;
     this.width = width;
   }
-  area(): number {
+  площадь(): number {
     return this.width * this.height;
   }
 }
 
 // Создаем фигуры в массиве
-let shapes: Figure[] = [
-  new Circle(2), // Круг радиусом 2
-  new Square(5, 6), // Квадрат 5*6
-  new Square(3, 6), // Квадрат 3*6
+let shapes: Фигура[] = [
+  new Круг(2), // Круг радиусом 2
+  new Прямоугольник(5, 6), // Квадрат 5*6
+  new Прямоугольник(3, 6), // Квадрат 3*6
 ];
 // Или можем сразу посчитать площади
 let areas: number[] = [
-  new Circle(2).area(), // Площадь ≈ 12.57 м²
-  new Square(5, 6).area(), // Площадь = 30 м²
-  new Square(3, 6).area(), // Площадь = 18 м²
+  new Круг(2).площадь(), // Площадь ≈ 12.57 м²
+  new Прямоугольник(5, 6).площадь(), // Площадь = 30 м²
+  new Прямоугольник(3, 6).площадь(), // Площадь = 18 м²
 ];
 
-let circle1 = new Circle(60);
-let circle2 = new Circle(140);
-let circle3 = new Circle(9);
-let kvadr1 = new Square(40, 40);
+let circle1 = new Круг(60);
+let circle2 = new Круг(140);
+let circle3 = new Круг(9);
+let kvadr1 = new Прямоугольник(40, 40); // Квадрат 40м*40м
+let priam1 = new Прямоугольник(20, 60); // Квадрат 20м*60м
+let priam2 = new Прямоугольник(100, 40); // Квадрат 100м*40м
 
-// НАПИСАТЬ ФУНКЦИЮ
-// ПОСЧИТАТЬ ПЛОЩАДЬ КРУГА И ДИАМЕТР ,И ВЫВЕСТИ ИХ В ХТМЛ БЛОКАХ (блоки пока вывести в консоль, потом HTML сделаю у проекта)
-// функция принимает: круг, еденицу измерения: м или см. если никакой не передели то метры по умолчанию. Возвращает строчку (string)
-function outputHTML(circ: Circle, unit: "m" | "cm" = "m"): string {
-  let Scircle = circ.area();
-  let Dcircle = circ.diametr()
-  if (unit == "cm") {
-    return `<div class="result">
-                <h1>Диаметр круга   = ${Scircle * 100} сантиметор</h1>
-                <h1>Площадь круга   = ${Dcircle ^ 2} сантиметров^2</h1>
-            </div>`;
-  } else {
-    return `<div class="result">
-                <h1>Диаметр круга   = ${Scircle} метров</h1>
-                <h1>Площадь круга   = ${Dcircle} метров^2</h1>
-            </div>`;
-  }
+function создатьHTML(прям: Прямоугольник, еденица: "м" | "см" = "м"): string {
+  // в прям === тот прямоугольник который будем считать
+  // в еденица === "м" || еденица === "см" метры или сантиметры
 
-  // в circ === тот круг который будем считать
-  // в unit === "m" || unit === "cm" метры или сантиметры
+  // посчитай площадь и периметр. Возможно что то уже умеет считать класс?
+  // Написать что если метры то ничего,
+  // а если еденица ==="см" то перевести метры в см
 
-  // Написать что если метры то ничего, а если unit ==="cm" то перевести метры в см
-  //?????????????????????
-
-  // Напиисать логику что вы выводите площадь и диметр. Возможно что то уже умеет считать класс?
-  return `<div class="result">
-                <h1>Диаметр круга   = ??????? метров//см </h1>
-                <h1>Площадь круга   = ??????? метров//см^2 </h1>
-            </div>`;
+  // Напиисать что вы выводите площадь и диметр.
+  return `
+  <div class="result">
+       <h1>Периметр прямоугольника  = ??????? метров//см </h1>
+       <h1>Площадь прямоугольника  = ??????? метров//см^2 </h1>
+  </div>`;
 }
-console.log(outputHTML(circle1, "cm")); // вывод HTML круга 1 в см
-console.log(outputHTML(circle2, "m")); // вывод HTML круга 2 в м
-console.log(outputHTML(circle3)); // вывод HTML круга 3 тоже в метрах, (они там по умолчанию в unit: "m" | "cm" = "m")
+
+console.log(создатьHTML(kvadr1, "см")); // вывод HTML круга 1 в см
+console.log(создатьHTML(priam1, "м")); // вывод HTML круга 2 в м
+console.log(создатьHTML(priam2)); // вывод HTML круга 3 тоже в метрах, (они там по умолчанию в unit: "m" | "cm" = "m")
