@@ -1,0 +1,6 @@
+{
+    "forwardedPorts": [2223],
+    "container": {
+      "port": 2223
+    }
+  }
