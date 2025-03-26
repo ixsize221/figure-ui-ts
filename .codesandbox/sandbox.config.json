@@ -1,6 +1,10 @@
 {
-    "forwardedPorts": [2223],
-    "container": {
-      "port": 2223
-    }
+  "forwardedPorts": [2223],
+  "container": {
+    "port": 2223
+  },
+  "preview": {
+    "port": 2223,
+    "forcePort": true
   }
+}
