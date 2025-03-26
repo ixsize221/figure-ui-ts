@@ -5,7 +5,8 @@
   "main": "",
   "scripts": {
     "start": "npx ts-node main.ts",
-    "dev": "tsx watch main.ts"
+    "dev": "tsx watch main.ts",
+    "preview": "vite preview"
   },
   "keywords": [],
   "dependencies": {
