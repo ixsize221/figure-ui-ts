@@ -5,6 +5,7 @@
   },
   "preview": {
     "port": 2223,
-    "forcePort": true
+    "forcePort": true,
+    "disableDefaultPort": true
   }
 }
