@@ -15,6 +15,7 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 2222,
     open: false,
+    strictPort: true,
   },
   resolve: {
     alias: {
