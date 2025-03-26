@@ -4,7 +4,10 @@ export default defineConfig({
   root: ".",
   publicDir: "../public",
   build: {
-    outDir: "../dist",
+    outDir: "./dist",
     emptyOutDir: true,
+  },
+  server: {
+    open: true, // Автоматически открывать браузер
   },
 });
