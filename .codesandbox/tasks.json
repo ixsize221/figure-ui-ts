@@ -8,7 +8,7 @@
   "tasks": {
     "dev": {
       "name": "Dev Server",
-      "command": "npx vite dev --host 0.0.0.0 --port 5173",
+      "command": "npm run dev",
       "runAtStart": true,
       "isBackground": true
     }
