@@ -3,18 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "",
-  "scripts": {
-    "start": "npx ts-node main.ts",
+  "scripts": {  
+    "dev": "vite dev", 
     "dev2": "tsx watch main.ts",
     "preview": "vite preview",
-    "build": "vite build",
-    "dev": "vite dev"
+    "build": "vite build"    
   },
   "keywords": [],
   "dependencies": {
     "@types/node": "22.13.13",
-    "npx": "^10.2.2",
-    "ts-node": "10.9.2",
     "tsx": "^4.19.3",
     "typescript": "5.8.2",
     "vite": "^6.2.3"
