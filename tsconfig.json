@@ -6,7 +6,7 @@
       "dom"
     ],
     "module": "ESNext",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Node",
     "strict": true,
     "jsx": "react",
     "allowJs": true,
