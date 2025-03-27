@@ -8,7 +8,7 @@ export default defineConfig({
     outDir: "./dist",
     emptyOutDir: true,
     rollupOptions: {
-      input: path.resolve(__dirname, "src/ts/main.ts"), // Явный путь к входному файлу
+      input: path.resolve(__dirname, "index.html"), // Явный путь к входному файлу
     },
   },
   server: {
