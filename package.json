@@ -3,15 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "",
-  "scripts": {  
-    "dev": "vite dev", 
+  "scripts": {
+    "dev": "vite dev",
     "dev2": "tsx watch main.ts",
     "preview": "vite preview",
-    "build": "vite build"    
+    "build": "vite build"
   },
   "keywords": [],
   "dependencies": {
-    "@types/node": "22.13.13",
     "tsx": "^4.19.3",
     "typescript": "5.8.2",
     "vite": "^6.2.3"
