@@ -36,6 +36,7 @@ class Круг extends Фигура {
   периметр(): number {
     return 2 * Math.PI * this.radius;
   }
+  
 }
 
 class Прямоугольник extends Фигура {
