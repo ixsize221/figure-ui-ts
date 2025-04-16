@@ -3,7 +3,7 @@ body {
 }
 
 .figures {
-  background-color: white;
+  background-color: rgb(246, 246, 246);
   padding: 2em 2em;
 }
 h2 {
@@ -13,11 +13,11 @@ h2 {
   margin-bottom: 0.75em;
 }
 .result {
-  border: 1px solid #0000007d;
+  border: 1px solid #dd2a2a7d;
   padding: 1em 1.4em;
   border-radius: 4px;
   font-size: 125%;
-  box-shadow: 1px 1px 8px #00000029;
+  box-shadow: 1px 1px 8px #ade899d5;
 }
 .figures-text-info {
   display: flex;
