@@ -88,17 +88,11 @@ class Треугольник extends Фигура {
   }
 }
 
-// Улучшенный класс Круга (у вас уже есть, но добавим проверки)
 class Круг extends Фигура {
   public radius: ЛинейнаяВеличина
 
   constructor(radius: number) {
     super(new Точка(0, 0))
-    
-    if (radius <= 0) {
-      throw new Error('Радиус должен быть положительным')
-    }
-    
     this.radius = new ЛинейнаяВеличина(radius, "м") 
   }
 
