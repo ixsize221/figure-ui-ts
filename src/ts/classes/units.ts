@@ -8,7 +8,7 @@ const ЛинейныеКоэффициенты = {
   } as const;  // as const -- запрещаем менять поля объекта
   
   // Квадратные единицы (на основе линейных)
-  const КвадратныеКоефициенты = {
+  const КвадратныеКоэфициенты = {
     'мм²': Math.pow(ЛинейныеКоэффициенты['мм'], 2),
     'см²': Math.pow(ЛинейныеКоэффициенты['см'], 2),
     'дм²': Math.pow(ЛинейныеКоэффициенты['дм'], 2),
@@ -18,17 +18,37 @@ const ЛинейныеКоэффициенты = {
   } as const; // as const -- запрещаем менять поля объекта
   
   type ЛинейнаяЕдиница = keyof typeof ЛинейныеКоэффициенты;
-  type КвадратнаяЕдиница = keyof typeof КвадратныеКоефициенты;
+  type КвадратнаяЕдиница = keyof typeof КвадратныеКоэфициенты;
   
   class ЛинейнаяВеличина {
     constructor(
-      public val: number,
-      public unit: ЛинейнаяЕдиница
+      private _val: number,
+      private _unit: ЛинейнаяЕдиница
     ) {}  
+
+    get unit():ЛинейнаяЕдиница{
+      return this._unit 
+    }
+
+    set unit(any: ЛинейнаяЕдиница){
+      throw new Error("Используй конвертацию единиц типа переменная.см или переменная.вЕдиницах('см'), не меняй их напрямую иначе все запорешь")
+    }
+
+    get val():number{
+      return this._val 
+    }
+
+    set val(number){
+      if (number <= 0) {
+        throw new Error(`Линейная величина должна быть положительной (${number} ${this._unit})`);
+      }
+      this._val = number      
+    }
    
+    
     // Приватный метод для конвертации в метры
     private вМетрах(): number {
-      return this.val * ЛинейныеКоэффициенты[this.unit];
+      return this.val * ЛинейныеКоэффициенты[this._unit];
     }
   
     // Универсальный метод преобразования
@@ -39,7 +59,32 @@ const ЛинейныеКоэффициенты = {
     }
   
     get строкой(){ 
-      return `${this.val} ${this.unit}`
+      return `${this.val} ${this._unit}`
+    }
+
+    public static проверитьОднотипностьЕдиниц(...величины: ЛинейнаяВеличина[]): ЛинейнаяЕдиница {
+      if (величины.length === 0) {
+        throw new Error("Не передано ни одной величины");
+      }
+      
+      const перваяЕдиница = величины[0].unit;
+      
+      if (!величины.every(v => v.unit === перваяЕдиница)) {
+        const полученныеЕдиницы = [...new Set(величины.map(v => v.unit))].join(', ');
+        throw new Error(`Ожидались величины в "${перваяЕдиница}", но получены: ${полученныеЕдиницы}`);
+      }
+      
+      return перваяЕдиница;
+    }
+
+    // Перегоняет числа в ЛинейнаяВеличина, если нужно
+    public static привестиКВеличинам<T extends ЛинейнаяВеличина>(
+      values: Array<number | T>, unit: ЛинейнаяЕдиница 
+    ): T[] {
+      
+      return values.map(val => 
+        typeof val === 'number' ? new ЛинейнаяВеличина(val, unit) as T : val
+      );
     }
   
     // Опциональные геттеры для удобства
@@ -52,17 +97,36 @@ const ЛинейныеКоэффициенты = {
   
   class КвадратнаяВеличина {
     constructor(
-      public readonly val: number,
-      public readonly unit: КвадратнаяЕдиница
+      private _val: number,
+      private _unit: КвадратнаяЕдиница
     ) {}
+
+    get unit():КвадратнаяЕдиница{
+      return this._unit 
+    }
+
+    set unit(any: КвадратнаяЕдиница){
+      throw new Error("Используй конвертацию единиц типа переменная.см или переменная.вЕдиницах('см²'), не меняй их напрямую иначе все запорешь")
+    }
+
+    get val():number{
+      return this._val 
+    }
+
+    set val(number){
+      if (number <= 0) {
+        throw new Error(`Квадратическая величина должна быть положительной (${number} ${this.unit})`);
+      }
+      this._val = number      
+    }
   
     private вМетры(): number {
-      return this.val * КвадратныеКоефициенты[this.unit];
+      return this.val * КвадратныеКоэфициенты[this.unit];
     }
   
     вЕдиницах(targetUnit: КвадратнаяЕдиница): КвадратнаяВеличина {
       const baseValue = this.вМетры();
-      const convertedValue = baseValue / КвадратныеКоефициенты[targetUnit];
+      const convertedValue = baseValue / КвадратныеКоэфициенты[targetUnit];
       return new КвадратнаяВеличина(convertedValue, targetUnit);
     }
     
@@ -78,8 +142,8 @@ const ЛинейныеКоэффициенты = {
     get км() { return this.вЕдиницах('км²'); }
     get га() { return this.вЕдиницах('га'); }
   
-  }
+  }  
   
-  
+ 
   
 export {ЛинейнаяЕдиница, ЛинейнаяВеличина, КвадратнаяВеличина }  
