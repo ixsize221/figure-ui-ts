@@ -1,5 +1,5 @@
 import '../css/style.css' // Стили можно подключать как в html так и в TS
-import { Точка, Фигура, Круг, Прямоугольник } from './classes/figures'
+import { Точка, Фигура, Круг, Прямоугольник, Элипс } from './classes/figures'
 import {ЛинейнаяЕдиница} from './classes/units'
 
 // определяем контейнер для отрисовки фигур
@@ -35,6 +35,8 @@ function создатьHTML(фигура: Фигура, единица: Лине
   </div>`;
 }
 
+// <h1>Прямоугольник ${прям.width[единица].val} х ${прям.height[единица].val} ${единица} </h1>
+
 function HTMLвКонтейнер(html: string, div: HTMLElement = document.body): void {
   div.insertAdjacentHTML('beforeend', html)
 }
@@ -68,5 +70,4 @@ HTMLвКонтейнер(хтмлФигуры4, контейнерДляИнфы
 HTMLвКонтейнер(создатьHTML( circle2 ), контейнерДляИнфы)
 HTMLвКонтейнер(создатьHTML( circle3 ), контейнерДляИнфы)
 
-//let новыйПрям = прям.конвертироватьВЕдиницы(единица)
-// <h1>Прямоугольник ${прям.width[единица].val} х ${прям.height[единица].val} ${единица} </h1>
+
