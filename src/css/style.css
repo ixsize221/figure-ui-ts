@@ -1,24 +1,13 @@
-body {
-  background-color: #dedede;
-}
 
-.figures {
-  background-color: rgb(246, 246, 246);
-  padding: 2em 2em;
-}
+
 h2 {
   text-align: center;
-  font-size: 200%;
+  font-size: 250%;
   font-weight: bold;
-  margin-bottom: 0.75em;
+  margin-bottom: 0.85em;
+  margin-top: 0.45em;
 }
-.result {
-  border: 1px solid #dd2a2a7d;
-  padding: 1em 1.4em;
-  border-radius: 4px;
-  font-size: 125%;
-  box-shadow: 1px 1px 8px #ade899d5;
-}
+
 .figures-text-info {
   display: flex;
   flex-direction: column;
@@ -35,3 +24,272 @@ h2 {
     font-size: 11px;
   }
 }
+
+
+
+
+/* Неоновые стили */
+:root {
+  --neon-blue: #49ffc2;
+  --neon-pink: #00e7ff;
+  --neon-purple: #7a5fff; /* Мягкий фиолетовый */
+  --neon-yellow: #ff0;
+  --dark-bg: #0a0a12; /* Тёмно-синий вместо чёрного */
+  --card-bg: rgba(20, 20, 35, 0.85); /* Полупрозрачный тёмный с фиолетовым подтоном */
+}
+body {
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+  background: 
+    radial-gradient(
+      ellipse at 20% 20%,
+      rgba(45, 30, 60, 0.3) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 80% 80%,
+      rgba(60, 30, 70, 0.3) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      135deg,
+      #0a0a12 0%,
+      #12101a 50%,
+      #0a0812 100%
+    );
+  background-size: 200% 200%;
+  animation: mist-movement 150s ease infinite;
+  color: white;
+  font-family: 'Arial', sans-serif;
+}
+
+@keyframes mist-movement {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(90, 50, 120, 0.05) 0%,
+      transparent 70%
+    );
+  pointer-events: none;
+  z-index: -1;
+  animation: pulse-mist 30s alternate infinite;
+}
+
+@keyframes pulse-mist {
+  0% { opacity: 0.3; transform: scale(0.95); }
+  100% { opacity: 0.7; transform: scale(1.05); }
+}
+
+
+
+
+.shape-card {
+  border-radius: 15px;
+  padding: 25px;
+  margin: 20px auto;
+  max-width: 800px;
+  position: relative;
+  overflow: hidden;
+  background: rgba(20, 15, 30, 0.7);
+  border: 1px solid rgba(122, 95, 255, 0.2);
+  box-shadow: 
+    0 0 15px rgba(0, 0, 0, 0.5),
+    0 0 5px rgba(122, 95, 255, 0.3);
+  backdrop-filter: blur(8px);
+  transition: all 0.4s ease;
+}
+
+.shape-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(122, 95, 255, 0.5);
+  box-shadow: 
+    0 0 25px rgba(0, 0, 0, 0.7),
+    0 0 15px rgba(122, 95, 255, 0.4);
+}
+
+.shape-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    transparent, var(--neon-blue), transparent);
+  animation: neon-glow 8s infinite;
+}
+
+@keyframes neon-glow {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+.shape-header {
+  text-align: center;
+}
+
+.shape-title {
+  color: var(--neon-blue);
+  text-shadow: 0 0 10px var(--neon-blue);
+  margin: 0 0 10px 0;
+  font-size: 2.2rem;
+  position: relative;
+  display: inline-block;
+}
+
+
+.shape-content {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.shape-visual {
+  flex: 1;
+  min-width: 300px;
+}
+
+.shape-properties {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.property {
+  /*! margin: 12px 0; */
+  font-size: 1.1rem;
+  position: relative;
+  /*! padding-left: 15px; */
+}
+
+
+.main-property {
+  font-size: 1.4rem;
+  /*! margin: 18px 0; */
+  font-weight: bold;
+  /*! color: var(--neon-yellow); */
+}
+
+
+
+.neon-property {
+  color: var(--neon-pink);
+  text-shadow: 0 0 3px var(--neon-pink);
+}
+
+/* SVG стили */
+.shape-svg {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 5px rgba(0, 255, 170, 0.7));
+  transform-origin: center; 
+}
+
+.neon-circle {
+  fill: none;
+  stroke: var(--neon-purple);
+  stroke-width: 3;
+  stroke-dasharray: 15, 10;
+  animation: rotate 50s linear infinite;
+  transform-origin: 100px 100px; /* Центр для круга (cx=100, cy=100) */
+}
+
+.neon-rhombus {
+  fill: none;
+  stroke: var(--neon-blue);
+  stroke-width: 3;
+  stroke-dasharray: 10, 5;
+  animation: pulse 25s infinite linear;
+  transform-origin: 100px 100px; /* Центр ромба */
+}
+
+.neon-rect {
+  fill: none;
+  stroke: var(--neon-blue);
+  stroke-width: 3;
+  stroke-dasharray: 10, 5;
+  animation: pulse 25s infinite linear;
+}
+
+.neon-triangle {
+  fill: none;
+  stroke: var(--neon-pink);
+  stroke-width: 3;
+  stroke-dasharray: 5, 5;
+  animation: pulse 25s infinite linear;
+}
+
+.neon-ellipse {
+  fill: none;
+  stroke: var(--neon-yellow);
+  stroke-width: 3;
+  stroke-dasharray: 20, 10;
+  animation: pulse 25s infinite linear;
+}
+
+
+.dimension-text {
+  font-size: 12px;
+  fill: white;
+  font-family: Arial;
+  text-shadow: 0 0 3px rgba(255,255,255,0.7);
+  paint-order: stroke fill;
+  letter-spacing: 0.5px;
+  user-select: none;
+}
+
+/* Специфичные стили для текста ромба */
+.neon-rhombus + text {
+  font-size: 11px; /* Чуть меньше для вертикального текста */
+}
+
+.dimension-line {
+  stroke: white;
+  stroke-width: 2;
+  stroke-dasharray: 6, 6;
+}
+
+/* Анимации */
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0% { 
+    stroke-width: 2;
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }  
+  100% { 
+    stroke-width: 2;
+    opacity: 1;
+    stroke-dashoffset: -150;
+  }
+}
+
+
+/* Для варианта с textPath */
+textPath {
+  dominant-baseline: central;
+}
+
