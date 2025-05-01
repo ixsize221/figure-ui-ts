@@ -1,6 +1,6 @@
 import '../css/style.css' // Стили можно подключать как в html так и в TS
-import { Точка, Фигура, Круг, Прямоугольник, Треугольник, Ромб, Элипс } from './classes/figures'
-import { ЛинейнаяЕдиница } from './classes/units'
+import { Точка, Фигура, Круг, Прямоугольник, Треугольник, Ромб, Элипс } from './фигуры'
+import { ЛинейнаяЕдиница } from './абстракции/единицыИзмерения'
 
 // определяем контейнер для отрисовки фигур
 let контейнерСФигурами = document.querySelector('.figures-text-info')
@@ -12,215 +12,187 @@ if (!(контейнерСФигурами instanceof HTMLElement)) {
 // Создаем фигуры в массиве
 let shapes: Фигура[] = [
   new Круг(2), // Круг радиусом 2
-  new Прямоугольник(5, 6), // Квадрат 5*6
-  new Прямоугольник(3, 7), // Квадрат 3*6
+  new Прямоугольник(5, 6), // Прямоугольник 5*6
+  new Прямоугольник(3, 7), // Прямоугольник 3*6
 ]
-// // Или можем сразу посчитать площади
-// let areas: number[] = [
-//   new Круг(2).площадь(), // Площадь ≈ 12.57 м²
-//   new Прямоугольник(5, 6).площадь(), // Площадь = 30 м²
-//   new Прямоугольник(3, 9).площадь(), // Площадь = 18 м²
-// ]
+// Или можем сразу посчитать площади
+let areas: number[] = [
+  new Круг(2).площадь().val, // Площадь ≈ 12.57 м²
+  new Прямоугольник(5, 6).площадь().val, // Площадь = 30 м²
+  new Прямоугольник(3, 9).площадь().val, // Площадь = 18 м²
+]
 
-// в прям === тот прямоугольник который будем считать
-// в еденица === "м" || еденица === "см" метры или сантиметры
+
+
 function создатьHTML(фигура: Фигура): string {
-  const периметр = фигура.периметр().строкой;
-  const площадь = фигура.площадь().строкой;
-  const единица = фигура.основнаяЕдиница
+  return `
+  <div class="shape-card neon-card">
+    ${создатьЗаголовок(фигура)}
+    <div class="shape-content">
+      ${создатьSVG(фигура)}
+      ${создатьСвойства(фигура)}
+    </div>
+  </div>`;
+}
 
-  // Определяем тип фигуры и специфические свойства
-  let специфика = '';
-  let svg = '';
+
+// 1. Заголовок фигуры
+function создатьЗаголовок(фигура: Фигура): string {
+  return `
+  <div class="shape-header">
+    <h1 class="shape-title">${фигура.constructor.name}</h1>
+  </div>`;
+}
+
+// 2. SVG визуализация
+function создатьSVG(фигура: Фигура): string {
+  const единица = фигура.основнаяЕдиница;
 
   if (фигура instanceof Прямоугольник) {
     const width = фигура.width.val.toFixed(2);
     const height = фигура.height.val.toFixed(2);
-    специфика = `
-      <div class="property">
-        <span class="neon-property">Ширина:</span> ${width} ${единица}
-      </div>
-      <div class="property">
-        <span class="neon-property">Высота:</span> ${height} ${единица}
-      </div>
-    `;
-    svg = `
-    <svg viewBox="0 0 200 120" class="shape-svg">
-      <rect x="20" y="20" width="160" height="80" class="neon-rect"></rect>
-      <text text-anchor="middle" class="dimension-text" x="50%" y="11%">${width} ${единица}</text>
-      <text text-anchor="middle" dominant-baseline="middle" transform="rotate(90,180,60)" class="dimension-text" x="180" y="42%">${height} ${единица}</text>
-    </svg>
-  `;
-
+    return `
+    <div class="shape-visual">
+      <svg viewBox="0 0 200 120" class="shape-svg">
+        <rect x="20" y="20" width="160" height="80" class="neon-rect"></rect>
+        <text text-anchor="middle" class="dimension-text" x="50%" y="11%">${width} ${единица}</text>
+        <text text-anchor="middle" dominant-baseline="middle" transform="rotate(90,180,60)" 
+              class="dimension-text" x="180" y="42%">${height} ${единица}</text>
+      </svg>
+    </div>`;
   }
+
   else if (фигура instanceof Круг) {
     const radius = фигура.radius[единица].val.toFixed(2);
-    специфика = `
-      <div class="property">
-        <span class="neon-property">Радиус:</span> ${radius} ${единица}
-      </div>
-    `;
-    svg = `
+    return `
+    <div class="shape-visual">
       <svg viewBox="0 0 200 200" class="shape-svg">
-        <!-- Круг -->
         <circle cx="100" cy="100" r="80" class="neon-circle"/>
-        
-        <!-- Линия радиуса (от центра до края круга) -->
         <line x1="100" y1="100" x2="180" y2="100" 
-              stroke-dasharray="5,3" 
-              class="dimension-line"/>
-        
-        <!-- Текст с размером радиуса -->
-        <text x="140" y="92" 
-              text-anchor="middle"
-              class="dimension-text">
+              stroke-dasharray="5,3" class="dimension-line"/>
+        <text x="140" y="92" text-anchor="middle" class="dimension-text">
           ${radius}${единица}
         </text>
       </svg>
-    `;
+    </div>`;
   }
+
   else if (фигура instanceof Треугольник) {
     const sides = фигура.стороны.map(s => s[единица].val.toFixed(2));
-    специфика = `
-      <div class="property">
-        <span class="neon-property">Стороны:</span> 
-        ${sides[0]}, ${sides[1]}, ${sides[2]} ${единица}
-      </div>
-    `;
-    svg = `
-   <svg viewBox="0 0 200 180" class="shape-svg">
-      <!-- Невидимые пути для текста (смещенные наружу) -->
+    return `
+    <div class="shape-visual">
+      <svg viewBox="0 0 200 180" class="shape-svg">
         <path id="sideAB" d="M108.7,15 L188.7,155" fill="none"/>
         <path id="sideBC" d="M20,170 L180,170" fill="none"/>
         <path id="sideCA" d="M11.3,155 L91.3,15" fill="none"/>
-      
-      <!-- Сам треугольник (оригинальные размеры) -->
-      <polygon points="100,20 180,160 20,160" class="neon-triangle"/>
-      
-      <!-- Текст вдоль сторон -->
-      <text>
-        <textPath href="#sideAB" startOffset="50%" text-anchor="middle" class="dimension-text">
-          ${sides[0]}${единица}
-        </textPath>
-      </text>      
-      
-      <text>
-        <textPath href="#sideBC" startOffset="50%" text-anchor="middle" class="dimension-text"
-                  pathLength="100" lengthAdjust="spacingAndGlyphs" method="align">
-          ${sides[1]}${единица}
-        </textPath>
-      </text>
-      
-      <text>
-        <textPath href="#sideCA" startOffset="50%" text-anchor="middle" class="dimension-text">
-          ${sides[2]}${единица}
-        </textPath>
-      </text>
-    </svg>
-    `;
+        <polygon points="100,20 180,160 20,160" class="neon-triangle"/>
+        <text><textPath href="#sideAB" startOffset="50%" text-anchor="middle" 
+              class="dimension-text">${sides[0]}${единица}</textPath></text>
+        <text><textPath href="#sideBC" startOffset="50%" text-anchor="middle"
+              class="dimension-text">${sides[1]}${единица}</textPath></text>
+        <text><textPath href="#sideCA" startOffset="50%" text-anchor="middle"
+              class="dimension-text">${sides[2]}${единица}</textPath></text>
+      </svg>
+    </div>`;
   }
+
   else if (фигура instanceof Элипс) {
     const major = фигура.majorAxis[единица].val.toFixed(2);
     const minor = фигура.minorAxis[единица].val.toFixed(2);
-    специфика = `
-      <div class="property">
-        <span class="neon-property">Большая ось:</span> ${major} ${единица}
-      </div>
-      <div class="property">
-        <span class="neon-property">Малая ось:</span> ${minor} ${единица}
-      </div>
-    `;
-    svg = `
+    return `
+    <div class="shape-visual">
       <svg viewBox="0 0 200 120" class="shape-svg">
-        <!-- Эллипс -->
         <ellipse cx="100" cy="60" rx="80" ry="40" class="neon-ellipse"/>
-        
-        <!-- Линия большой оси (горизонтальная) -->
         <line x1="20" y1="60" x2="180" y2="60" class="dimension-line"/>
-        
-        <!-- Текст большой оси (в 1-й четверти) -->
-        <text x="33.33%" y="55" 
-              text-anchor="middle"
-              class="dimension-text">
+        <text x="33.33%" y="55" text-anchor="middle" class="dimension-text">
           ${major}${единица}
         </text>
-        
-        <!-- Текст МАЛОЙ оси в четверти 2 (повернут на 90°) -->
-        <text x="75%" y="50%" 
-              text-anchor="middle"
-              dominant-baseline="middle"
-              transform="rotate(90,130,40)"
-              class="dimension-text">
+        <text x="75%" y="50%" text-anchor="middle" dominant-baseline="middle"
+              transform="rotate(90,130,40)" class="dimension-text">
           ${minor}${единица}
         </text>
-        
-        <!-- Линия малой оси (вертикальная, оставляем как было) -->
         <line x1="100" y1="20" x2="100" y2="100" class="dimension-line"/>
       </svg>
-    `;
+    </div>`;
   }
+
   else if (фигура instanceof Ромб) {
     const side = фигура.side[единица].val.toFixed(2);
     const height = фигура.height[единица].val.toFixed(2);
-    специфика = `
-      <div class="property">
-        <span class="neon-property">Сторона:</span> ${side} ${единица}
-      </div>
-      <div class="property">
-        <span class="neon-property">Высота:</span> ${height} ${единица}
-      </div>
-    `;
-    svg = `
-     <svg viewBox="0 0 200 180" class="shape-svg">
-        <!-- Ромб -->
+    return `
+    <div class="shape-visual">
+      <svg viewBox="0 0 200 180" class="shape-svg">
         <polygon points="100,20 180,100 100,180 20,100" class="neon-rhombus"/>
-        
-        <!-- Линия высоты (вертикальная) -->
         <line x1="100" y1="20" x2="100" y2="180" class="dimension-line"/>
-        
-        <!-- Текст высоты (вертикальный, читается сверху вниз) -->
-        <text x="100" y="90" 
-              text-anchor="middle" 
-              dominant-baseline="middle"
-              transform="rotate(90,100,100)"
-              class="dimension-text">
+        <text x="100" y="90" text-anchor="middle" dominant-baseline="middle"
+              transform="rotate(90,100,100)" class="dimension-text">
           ${height}${единица}
         </text>
-        
-        <!-- Текст стороны (расположен вдоль верхней стороны ромба) -->
-        <text x="140" y="52" 
-              text-anchor="middle"
-              transform="rotate(45,140,60)"
-              class="dimension-text">
+        <text x="140" y="52" text-anchor="middle" 
+              transform="rotate(45,140,60)" class="dimension-text">
           ${side}${единица}
         </text>
       </svg>
-    `;
+    </div>`;
+  }
+
+  return ''; // fallback для неизвестных фигур
+}
+
+function создатьСвойства(фигура: Фигура): string {
+  const единица = фигура.основнаяЕдиница;
+  
+  let специфичныеСвойства = '';
+
+  if (фигура instanceof Прямоугольник) {
+    специфичныеСвойства = `
+      ${создатьСвойство("Ширина", фигура.width.val.toFixed(2), единица)}
+      ${создатьСвойство("Высота", фигура.height.val.toFixed(2), единица)}`;
+  }
+  else if (фигура instanceof Круг) {
+    специфичныеСвойства = создатьСвойство("Радиус", фигура.radius[единица].val.toFixed(2), единица);
+  }
+  else if (фигура instanceof Треугольник) {
+    const sides = фигура.стороны.map(s => s[единица].val.toFixed(2)).join(', ');
+    специфичныеСвойства = создатьСвойство("Стороны", sides, единица);
+  }
+  else if (фигура instanceof Элипс) {
+    специфичныеСвойства = `
+      ${создатьСвойство("Большая ось", фигура.majorAxis[единица].val.toFixed(2), единица)}
+      ${создатьСвойство("Малая ось", фигура.minorAxis[единица].val.toFixed(2), единица)}`;
+  }
+  else if (фигура instanceof Ромб) {
+    специфичныеСвойства = `
+      ${создатьСвойство("Сторона", фигура.side[единица].val.toFixed(2), единица)}
+      ${создатьСвойство("Высота", фигура.height[единица].val.toFixed(2), единица)}`;
   }
 
   return `
-  <div class="shape-card neon-card">
-    <div class="shape-header">
-      <h1 class="shape-title">${фигура.constructor.name}</h1>
-    </div>
-    
-    <div class="shape-content">
-      <div class="shape-visual">
-        ${svg}
-      </div>
-      
-      <div class="shape-properties">
-        ${специфика}
-        <div class="property main-property">
-          <span class="neon-property">Периметр:</span> ${периметр}
-        </div>
-        <div class="property main-property">
-          <span class="neon-property">Площадь:</span> ${площадь}
-        </div>
-      </div>
-    </div>
+  <div class="shape-properties">
+    ${специфичныеСвойства}
+    ${создатьСвойство("Периметр", фигура.периметр().строкой, null, true)}
+    ${создатьСвойство("Площадь", фигура.площадь().строкой, null, true)}
   </div>`;
 }
+
+function создатьСвойство(
+  название: string,
+  значение: string | number,
+  единица: string | null = null,
+  isCalculated: boolean = false
+): string {
+  const значениеСЕдиницей = typeof значение === 'number' 
+    ? `${значение.toFixed(2)}${единица ? ` ${единица}` : ''}`
+    : значение;
+
+  return `
+  <div class="property ${isCalculated ? 'main-property' : ''}">
+    <span class="neon-property">${название}:</span> ${значениеСЕдиницей}
+  </div>`;
+}
+
+
+
 
 // <h1>Прямоугольник ${прям.width[единица].val} х ${прям.height[единица].val} ${единица} </h1>
 
