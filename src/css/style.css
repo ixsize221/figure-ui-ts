@@ -159,14 +159,20 @@ body::before {
 .shape-content {
   display: flex;
   gap: 30px;
-  margin-top: 20px;
+  margin-top: 15px;
   justify-content: space-between;
   /*! width: 100%; */
+  /*! padding: 20px 0; */
+  padding-bottom: 15px;
 }
 
 .shape-visual {
-  flex: 1;
-  min-width: 300px;
+  /*! flex: 1; */
+  min-width: 323px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*! padding: 20px; */
 }
 
 .shape-properties {
@@ -174,6 +180,8 @@ body::before {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /*! padding: 20px; */
+  width: 200px;
 }
 
 .property {

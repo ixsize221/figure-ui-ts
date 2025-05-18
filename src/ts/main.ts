@@ -67,7 +67,9 @@ abstract class РендерФигуры {
     ): string {
         return `
         <div class="property ${isMain ? 'main-property' : ''}">
-            <span class="neon-property">${название}:</span> ${значение}
+            <span class="neon-property">${название}:</span> 
+            <br>
+            <span>${значение}</span>  
         </div>`;
     }
     
@@ -141,19 +143,19 @@ class РендерТреугольник extends РендерФигуры {
                 <path id="sideBC" d="M20,170 L180,170" fill="none"/>
                 <path id="sideCA" d="M11.3,155 L91.3,15" fill="none"/>
                 <polygon points="100,20 180,160 20,160" class="neon-triangle"/>
-                <text><textPath href="#sideAB" startOffset="50%" text-anchor="middle" 
-                      class="dimension-text">${стороны[0]}${единица}</textPath></text>
-                <text><textPath href="#sideBC" startOffset="50%" text-anchor="middle"
-                      class="dimension-text">${стороны[1]}${единица}</textPath></text>
                 <text><textPath href="#sideCA" startOffset="50%" text-anchor="middle"
-                      class="dimension-text">${стороны[2]}${единица}</textPath></text>
+                      class="dimension-text">${стороны[0]}${единица}</textPath></text>
+                <text><textPath href="#sideAB" startOffset="50%" text-anchor="middle" 
+                      class="dimension-text">${стороны[1]}${единица}</textPath></text>
+                <text><textPath href="#sideBC" startOffset="50%" text-anchor="middle"
+                      class="dimension-text">${стороны[2]}${единица}</textPath></text>                
             </svg>
         </div>`;
     }
 
     создатьУникальныеСвойства(): string {
         const единица = this.фигура.основнаяЕдиница;
-        const стороны = (this.фигура as Треугольник).стороны.map(s => s[единица].val.toFixed(2)+единица).join(', ');
+        const стороны = (this.фигура as Треугольник).стороны.map(s => s[единица].val.toFixed(2)+единица).join('<br> ');
         return this.создатьТекстовоеСвойство("Стороны", стороны);
     }
 }
@@ -265,7 +267,7 @@ const фигуры: Фигура[] = [
 фигуры.forEach(фигура => {
     const рендерер = ФабрикаРендеровФигур.нужныйРендер(фигура);
     const готовыйХТМЛ = рендерер.создатьХТМЛФигуры()
-    
+
     // вставляем ХТМЛ карточки фигуры в контейнер
     контейнерСФигурами.insertAdjacentHTML('beforeend', готовыйХТМЛ );
 });
