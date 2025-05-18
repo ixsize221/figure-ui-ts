@@ -112,6 +112,7 @@ body::before {
     0 0 5px rgba(122, 95, 255, 0.3);
   backdrop-filter: blur(8px);
   transition: all 0.4s ease;
+  min-width: 640px;
 }
 
 .shape-card:hover {
@@ -159,6 +160,8 @@ body::before {
   display: flex;
   gap: 30px;
   margin-top: 20px;
+  justify-content: space-between;
+  /*! width: 100%; */
 }
 
 .shape-visual {
@@ -167,7 +170,7 @@ body::before {
 }
 
 .shape-properties {
-  flex: 1;
+  /*! flex: 1; */
   display: flex;
   flex-direction: column;
   justify-content: center;
